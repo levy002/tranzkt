@@ -6,15 +6,14 @@ import { fetchTransactions } from '../redux/slices/transactionSlice';
 const TransactionList = () => {
     const transactions = useSelector((state) => state.transactions.data);
     const dispatch = useDispatch();
-    console.log(transactions, '****');
    
     useEffect(() => {
            dispatch(fetchTransactions());
     }, [dispatch]);
 
   return (
-    <div>
-        <h2>Transactions History</h2>
+    <div className="flex flex-col py-6 gap-3">
+        <h2 className='py-4 font-bold text-xl'>Transactions History</h2>
         {
             transactions.length === 0 ? (
                 <h3>No Transactions</h3>

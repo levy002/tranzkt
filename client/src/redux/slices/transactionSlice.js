@@ -10,7 +10,6 @@ export const fetchTransactions = createAsyncThunk(
     'transactions/fetch',
     async () => {
         const transactions = await fetchTransactionsApi();
-        console.log(transactions, '$$$$$')
         return transactions;
     }
 );
@@ -20,9 +19,13 @@ export const postTransaction = createAsyncThunk(
     async (transaction) => await postTransactionApi(transaction)
 );
 
-export const deleteTrnsaction = createAsyncThunk(
+export const deleteTransaction = createAsyncThunk(
     'transaction/delete',
-    async (id) => await deleteTransactionApi(id)
+    async (id) => {
+      const res = await deleteTransactionApi(id);
+      console.log(res, id, '%%%%%%%')
+      return res
+    }
 );
 
 
@@ -43,7 +46,7 @@ export const transactionSlice = createSlice({
   }
 });
 
-// const { getTransactions } = transactionSlice.actions;
+// export const { postTransaction, deleteTransaction } = transactionSlice.actions;
 
 export default transactionSlice.reducer;
 
