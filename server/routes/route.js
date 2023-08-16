@@ -17,6 +17,9 @@ routes.route('/api/categories')
   routes.route('/api/transactions')
   .post(transactionsController.newTransaction)
   .get(transactionsController.getAllTransactions)
+
+
+  routes.route('api/transactions/:id')
   .delete(transactionsController.deleteTransaction)
 
   module.exports = routes;

@@ -19,8 +19,8 @@ const transactionModel = new mongoose.Schema({
     type: { type: String, required: true},
     category: { type: String },
     subCategory: { type: String },
-    amount: {type: Number, required: true},
-    month: { type: String, required: true}
+    amount: {type: String, required: true},
+    time: { type: String, required: true}
 });
 
 const Category = mongoose.model('categories', categoryModel);
