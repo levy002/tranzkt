@@ -2,6 +2,7 @@ const routes = require('express').Router();
 const categoriesController = require('../controllers/categoryController');
 const subCategoriesController = require('../controllers/subCategoryController');
 const transactionsController = require('../controllers/transactionController');
+const budgetController = require('../controllers/budgetConteroller');
 
 routes.route('/api/categories')
   .post(categoriesController.newCategory)
@@ -21,5 +22,9 @@ routes.route('/api/categories')
 
   routes.route('api/transactions/:id')
   .delete(transactionsController.deleteTransaction)
+
+  routes.route('/api/budget')
+  .post(budgetController.newBudget)
+  .get(budgetController.getBudget)
 
   module.exports = routes;

@@ -19,16 +19,25 @@ const transactionModel = new mongoose.Schema({
     type: { type: String, required: true},
     category: { type: String },
     subCategory: { type: String },
-    amount: {type: String, required: true},
+    amount: {type: Number, required: true},
     time: { type: String, required: true}
+});
+
+const budgetModel = new mongoose.Schema({
+    amount: {
+        type: Number,
+        default: 0
+    }
 });
 
 const Category = mongoose.model('categories', categoryModel);
 const SubCategory = mongoose.model('subCategories', subCategoryModel);
 const Transaction = mongoose.model('transactions', transactionModel);
+const Budget = mongoose.model('budget', budgetModel);
 
 module.exports = {
     Category,
     SubCategory,
-    Transaction
+    Transaction,
+    Budget
 };
