@@ -2,19 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
-    input,
-    select {
-        @apply px-3 py-1 text-base m-0 text-black rounded bg-white
-    }
+input,
+select {
+@apply px-3 py-1 text-sm m-0 text-black rounded bg-white
 }
 
-@layer components {
-    .budget-form-visible {
-        display: block;
-    }
 
-    .budget-form-invisible {
-        display: none;
-    }
+input[placeholder] {
+@apply text-sm
+}
+}
+
+
+@layer components {
+.budget-form-visible {
+display: block;
+}
+
+
+.budget-form-invisible {
+display: none;
+}
 }
