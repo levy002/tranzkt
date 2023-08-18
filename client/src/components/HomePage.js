@@ -20,6 +20,8 @@ const HomePage = () => {
   const subCategories = useSelector((state) => state.subCategories.data);
   const dispatch = useDispatch();
 
+  const sortedTransactions = transactions.length !== 0 ? [...transactions].sort((a,b) => Date.parse(b.time) > Date.parse(a.time) ? 1 : -1) : [];
+
   const handleTransactionSubmission = (data) => {
     dispatch(postTransaction(data));
   };
@@ -53,7 +55,7 @@ const HomePage = () => {
           subCategories={subCategories}
         />
       </div>
-      <TransactionList transactions={transactions} />
+      <TransactionList transactions={sortedTransactions} />
     </div>
   );
 };

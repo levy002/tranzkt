@@ -3,7 +3,7 @@ import HomePage from './components/HomePage';
 
 function App() {
 return (
-<div className="container mx-auto text-center pt-3">
+<div className="container mx-auto text-center">
 <HomePage />
 </div>
 );
