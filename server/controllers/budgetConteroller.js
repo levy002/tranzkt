@@ -1,23 +1,42 @@
 const model = require('../models/models');
 
 const newBudget = async (req, res) => {
-   const { amount } = req.body;
-
   try{
-    const budget = await model.Budget.create({ amount });
+    const budget = new model.Budget({
+        amount: 0
+    });
+
+    budget.save();
     res.status(201).send({
-        budget: {
-            amount: budget.amount
-        },
-        message: "Updated Budget Successfully"
-    })
+        budget,
+        message: "Creating Budget Successfully"
+    });
+
   }catch (err) {
     res.status(400).send({
-        message: 'Updating Budget failed'
+        message: 'Creating Budget failed'
     })
   }
 };
 
+const updateBudget = async (req, res) => {
+    console.log('helloooooo')
+   const id = req.params.id;
+   const {newAmount} = req.body;
+   console.log(rep.params)
+
+   try {
+    // //   const oldBudget = model.Budget.findById(id);
+    //   oldBudget.updateOne({$set: { amount: newAmount}});
+      res.status(201).send({
+        message: "Updating Budget Successfully"
+    });
+   }catch (err) {
+    res.status(400).send({
+        message: 'Updating Budget failed'
+    })
+   }
+};
 
 const getBudget = async (req, res) => {
 
@@ -34,5 +53,6 @@ const getBudget = async (req, res) => {
 
 module.exports = {
     getBudget,
-    newBudget
+    newBudget,
+    updateBudget
 };

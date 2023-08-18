@@ -27,4 +27,7 @@ routes.route('/api/categories')
   .post(budgetController.newBudget)
   .get(budgetController.getBudget)
 
+  routes.route('api/budget/:id')
+  .put(budgetController.updateBudget);
+
   module.exports = routes;
