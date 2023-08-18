@@ -9,6 +9,7 @@ const TransactionForm = ({
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {
+    console.log(data)
     handleTransactionSubmission(data);
     reset();
   };
@@ -31,12 +32,21 @@ const TransactionForm = ({
           />
         </div>
 
-        <select {...register("type")} className="w-1/4" required>
+        <select {...register("type")} className="w-1/3" required>
           <option value="" disabled selected>
-            Trans. Type
+            Transaction Type
           </option>
           <option value="Income">Income</option>
-          <option value="Expenses">Expense</option>
+          <option value="Expense">Expense</option>
+        </select>
+
+        <select {...register("account")} className="w-1/4" required>
+          <option value="" disabled selected>
+            Account
+          </option>
+          <option value="Cash">Cash</option>
+          <option value="Bank">Bank</option>
+          <option value="Momo">Mobile Money</option>
         </select>
 
         <select {...register("category")} className="w-1/3">

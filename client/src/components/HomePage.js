@@ -43,11 +43,14 @@ const HomePage = () => {
     <div>
       <Header transactions={transactions} />
       <div className="flex w-full gap-3 max-w-6xl mx-auto">
-        <div className="flex w-1/2 p-4 bg-gray-300 rounded">
+        <div className="flex flex-col w-1/2 p-4 bg-gray-300 rounded">
+          <h2 className="font-bold text-xl">ADD NEW EXPENSE CATEGORY OR SUBCATEGORY</h2>
+          <div className="flex">
           <CategoryForm handleCategorySubmission={handleCategorySubmission} />
           <SubCategoryForm
             handleSubCategorySubmission={handleSubCategorySubmission}
           />
+          </div>
         </div>
         <TransactionForm
           handleTransactionSubmission={handleTransactionSubmission}
