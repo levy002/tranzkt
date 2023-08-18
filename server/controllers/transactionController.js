@@ -1,10 +1,10 @@
 const model = require('../models/models');
 
 const newTransaction = async (req, res) => {
-    const { name, type, category, subCategory, amount, time } = req.body;
+    const { name, type, category, subCategory, amount, account, time } = req.body;
 
    try{
-     const transaction = await model.Transaction.create({ name, type, category, subCategory, amount, time });
+     const transaction = await model.Transaction.create({ name, type, category, subCategory, account, amount, time });
      res.status(201).send({
          transaction: {
             name: transaction.name, 
@@ -12,6 +12,7 @@ const newTransaction = async (req, res) => {
             category: transaction.category, 
             subCategory: transaction.subCategory, 
             amount: transaction.amount, 
+            account: transaction.account,
             time: transaction.time
          },
          message: "Transaction created Successfully"
@@ -34,6 +35,7 @@ const getAllTransactions = async (req, res) => {
             category: transaction.category, 
             subCategory: transaction.subCategory, 
             amount: transaction.amount, 
+            account: transaction.account,
             time: transaction.time,
             id: transaction._id
         }))
@@ -48,7 +50,6 @@ const getAllTransactions = async (req, res) => {
 const deleteTransaction = async (req, res) => {
     try{
         const id = req.params.id;
-        console.log(id, '#######')
         await model.Transaction.findByIdAndDelete(id);
         res.status(200).send({
             message: 'Transaction deleted successfully'

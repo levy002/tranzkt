@@ -20,6 +20,7 @@ const transactionModel = new mongoose.Schema({
     category: { type: String },
     subCategory: { type: String },
     amount: {type: Number, required: true},
+    account: {type: String, required: true},
     time: { type: String, required: true}
 });
 
