@@ -27,7 +27,7 @@ const HomePage = () => {
             Date.parse(b.time) > Date.parse(a.time) ? 1 : -1
           )
         : [],
-    [transactions.length]
+    [transactions]
   );
 
   const handleTransactionSubmission = useCallback(
@@ -38,7 +38,7 @@ const HomePage = () => {
         dispatch(fetchTransactions());
       }
     },
-    [transactions, dispatch]
+    [dispatch]
   );
 
   const handleCategorySubmission = useCallback(
@@ -49,7 +49,7 @@ const HomePage = () => {
         dispatch(fetchCategories());
       }
     },
-    [categories.length, dispatch]
+    [dispatch]
   );
 
   const handleSubCategorySubmission = useCallback(
@@ -60,7 +60,7 @@ const HomePage = () => {
         dispatch(fetchSubCategories());
       }
     },
-    [subCategories.length, dispatch]
+    [dispatch]
   );
 
   useEffect(() => {

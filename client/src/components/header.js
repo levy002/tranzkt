@@ -25,7 +25,7 @@ const Header = ({ transactions }) => {
       throw err;
     })
 
-  }, [budgetArr]);
+  }, [budgetArr, dispatch, resetField]);
 
   useEffect(() => {
     dispatch(fetchBudget());
@@ -42,14 +42,14 @@ const Header = ({ transactions }) => {
       }
       setNewBalanceFunction(total);
   }
-}, [transactions]);
+}, []);
 
 
 useEffect(() => {
  transactions.map((t) => {
    if(t.account === 'Momo') {
       updateBalance(t, 'Momo', setMomoBalance);
-   } else if(t.account == "Bank") {
+   } else if(t.account === "Bank") {
       updateBalance(t, "Bank", setBankBalance);
    } else if(t.account === "Cash") {
       updateBalance(t, "Cash", setCashBalance);
@@ -61,10 +61,11 @@ useEffect(() => {
     }, 0);
 
     setTotalExpenses(expenses);
+    return null;
  })
 
 
-}, [transactions]);
+}, [transactions, updateBalance]);
 
   return (
    <div 

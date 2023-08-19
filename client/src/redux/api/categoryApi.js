@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const Base_Url = 'http://localhost:8080/api/categories';
+const Base_Url = 'https://tranzakt.onrender.com/api/categories';
 
 export const fetchCategoriesApi = async () => {
    try {

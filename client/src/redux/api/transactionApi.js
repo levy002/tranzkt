@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const Base_Url = 'http://localhost:8080/api/transactions';
+const Base_Url = 'https://tranzakt.onrender.com/api/transactions';
 
 export const fetchTransactionsApi = async () => {
    try {

@@ -13,10 +13,10 @@ const TransactionList = ({ transactions }) => {
     };
 
     useEffect(() => {
-        if(displayedTransactions.length === 0 && transactions.length !== 0 && beginning == '' && end == '') {
+        if(displayedTransactions.length === 0 && transactions.length !== 0 && beginning === '' && end === '') {
             setDisplayedTransactions(transactions);
         }
-    }, [transactions, displayedTransactions]);
+    }, [transactions, displayedTransactions, beginning, end]);
 
    useEffect(() => {
      const sortedTransactions = [...transactions].filter((t) => Date.parse(beginning) <= Date.parse(t.time) && Date.parse(t.time) <= Date.parse(end));
@@ -34,7 +34,7 @@ const TransactionList = ({ transactions }) => {
         <div className="flex justify-between w-8/12 mx-auto">
         <h2 className="py-4 font-bold text-xl">Transactions</h2>
         <div className="flex items-center gap-4">
-            <button onClick={handleAllTransactionsFilter} className="text-sm border-2 border-green-500 px-2 rounded" style={transactions == displayedTransactions ? {backgroundColor: '#16a34a', color: "#fff"} : {backgroundColor: '#fff', color: "#16a34a"}}>All Transactions</button>
+            <button onClick={handleAllTransactionsFilter} className="text-sm border-2 border-green-500 px-2 rounded" style={transactions === displayedTransactions ? {backgroundColor: '#16a34a', color: "#fff"} : {backgroundColor: '#fff', color: "#16a34a"}}>All Transactions</button>
             <Filter handleTransactionsSearch={handleTransactionsSearch}/>
         </div>
         </div>
