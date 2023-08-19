@@ -5,6 +5,7 @@ const TransactionForm = ({
   handleTransactionSubmission,
   categories,
   subCategories,
+  isLoading
 }) => {
   const { register, handleSubmit, reset } = useForm();
 
@@ -32,7 +33,7 @@ const TransactionForm = ({
         </div>
 
         <select {...register("type")} className="w-1/3" required>
-          <option value="" selected>
+          <option value="">
             Transaction Type
           </option>
           <option value="Income">Income</option>
@@ -40,7 +41,7 @@ const TransactionForm = ({
         </select>
 
         <select {...register("account")} className="w-1/4" required>
-          <option value="" selected>
+          <option value="">
             Account
           </option>
           <option value="Cash">Cash</option>
@@ -49,7 +50,7 @@ const TransactionForm = ({
         </select>
 
         <select {...register("category")} className="w-1/3">
-          <option value="" selected>
+          <option value="">
             Category
           </option>
           {categories.map((category) => (
@@ -58,7 +59,7 @@ const TransactionForm = ({
         </select>
 
         <select {...register("subCategory")} className="w-1/3" >
-          <option value="" selected>
+          <option value="">
             SubCategory
           </option>
           {subCategories.map((subCategory) => (
@@ -75,17 +76,28 @@ const TransactionForm = ({
             required
           />
         </div>
-
+    
         <div className="w-1/3">
           <input type="date" {...register("time")} className="w-full"  required/>
         </div>
-        <div className="self-center align-middle border-yellow-300">
-          <button
+        <div className="self-center align-middle border-yellow-300 w-1/2">
+            {
+              isLoading ? (
+                <button
+               disabled
+            className="border border-gray-600 rounded px-3 bg-gray-600 text-slate-100 w-full"
+          >
+            Saving in progress....
+          </button>
+              ) : (
+                <button
             type="submit"
-            className="border border-green-600 rounded px-3 bg-green-600 text-slate-100"
+            className="w-full border border-green-600 rounded px-3 bg-green-600 text-slate-100"
           >
             Save Transaction
           </button>
+              )
+            }
         </div>
       </form>
     </div>

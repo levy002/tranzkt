@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { postCategoryApi, fetchCategoriesApi } from '../api/categoryApi';
 
 const initialState = {
-    data: [],
-    isLoading: 'false',
+    categories: [],
+    categoriesStatus: 'false',
 };
 
 export const fetchCategories = createAsyncThunk(
@@ -27,18 +27,18 @@ export const categoriesSlice = createSlice({
   initialState,
   extraReducers: {
     [fetchCategories.pending]: (state) => {
-      state.isLoading = 'true';
+      state.categoriesStatus = 'true';
     },
     [fetchCategories.fulfilled]: (state, action) => {
-      state.isLoading = 'false';
-      state.data = [...action.payload];
+      state.categoriesStatus = 'false';
+      state.categories = [...action.payload];
     },
-    [fetchCategories.rejected]: (state, action) => {
-      state.isLoading = 'false';
+    [fetchCategories.rejected]: (state) => {
+      state.categoriesStatus = 'false';
     },
     [postCategory.fulfilled]: (state, action) => {
-      state.isLoading = 'false';
-      state.data = [...state.data, action.payload.category];
+      state.categoriesStatus = 'false';
+      state.categories = [...state.categories, action.payload.category];
     },
   }
 });

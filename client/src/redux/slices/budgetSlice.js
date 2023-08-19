@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { updateBudgetApi, fetchBudgetApi, postBudgetApi } from '../api/budgetApi';
+import { updateBudgetApi, fetchBudgetApi } from '../api/budgetApi';
 
 const initialState = {
-    data: [],
-    isLoading: 'false',
+    budgetArr: [],
+    budgetStatus: 'false',
 };
 
 export const fetchBudget = createAsyncThunk(
@@ -27,18 +27,18 @@ export const budgetSlice = createSlice({
   initialState,
   extraReducers: {
     [fetchBudget.pending]: (state) => {
-      state.isLoading = 'true';
+      state.budgetStatus = 'true';
     },
     [fetchBudget.fulfilled]: (state, action) => {
-      state.isLoading = 'false';
-      state.data = [...action.payload];
+      state.budgetStatus = 'false';
+      state.budgetArr = [...action.payload];
     },
-    [fetchBudget.rejected]: (state, action) => {
-      state.isLoading = 'false';
+    [fetchBudget.rejected]: (state) => {
+      state.budgetStatus = 'false';
     },
     [updateBudget.fulfilled]: (state, action) => {
-      state.isLoading = 'false';
-      state.data = [action.payload.newAmount, action.payload.message];
+      state.budgetStatus = 'false';
+      state.budgetArr = [action.payload.newAmount, action.payload.message];
     },
   }
 });

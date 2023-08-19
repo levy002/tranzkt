@@ -21,8 +21,6 @@ export const updateBudgetApi = async (budget, id) => {
         throw err;
     }
 };
-
-// export const postBudgetApi = async () => {
 //    try {
 //      const res = await axios.post(Base_Url);
 //      return res.data;

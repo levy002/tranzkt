@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useCallback } from "react";
+import React, { useEffect, useMemo, useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TransactionForm from "./TransactionForm";
 import TransactionList from "./TransactionList";
@@ -15,9 +15,12 @@ import {
 } from "../redux/slices/subCategorySlice";
 
 const HomePage = () => {
-  const transactions = useSelector((state) => state.transactions.data);
-  const categories = useSelector((state) => state.categories.data);
-  const subCategories = useSelector((state) => state.subCategories.data);
+  const {transactions} = useSelector((state) => state.transactions);
+  const {categories} = useSelector((state) => state.categories);
+  const {subCategories} = useSelector((state) => state.subCategories);
+  const [newTransactionStatus, setNewTransactionStatus] = useState(false);
+  const [newCategorytatus, setNewCategoryStatus] = useState(false);
+  const [newSubCategoryStatus, setNewSubCategoryStatus] = useState(false);
   const dispatch = useDispatch();
 
   const sortedTransactions = useMemo(
@@ -32,10 +35,12 @@ const HomePage = () => {
 
   const handleTransactionSubmission = useCallback(
     async (data) => {
+      setNewTransactionStatus(true)
       const createdTransaction = await dispatch(postTransaction(data));
 
       if (createdTransaction.type === "transaction/post/fulfilled") {
         dispatch(fetchTransactions());
+        setNewTransactionStatus(false)
       }
     },
     [dispatch]
@@ -43,9 +48,11 @@ const HomePage = () => {
 
   const handleCategorySubmission = useCallback(
     async (data) => {
+      setNewCategoryStatus(true)
       const createdCategory = await dispatch(postCategory(data));
 
       if (createdCategory.type === "category/post/fulfilled") {
+        setNewCategoryStatus(false)
         dispatch(fetchCategories());
       }
     },
@@ -54,9 +61,11 @@ const HomePage = () => {
 
   const handleSubCategorySubmission = useCallback(
     async (data) => {
+      setNewSubCategoryStatus(true)
       const createdSubCategory = await dispatch(postSubCategory(data));
 
       if (createdSubCategory.type === "subCategory/post/fulfilled") {
+        setNewSubCategoryStatus(false)
         dispatch(fetchSubCategories());
       }
     },
@@ -78,8 +87,9 @@ const HomePage = () => {
             ADD NEW EXPENSE CATEGORY OR SUBCATEGORY
           </h2>
           <div className="flex">
-            <CategoryForm handleCategorySubmission={handleCategorySubmission} />
+            <CategoryForm handleCategorySubmission={handleCategorySubmission} isLoading={newCategorytatus} />
             <SubCategoryForm
+              isLoading={newSubCategoryStatus}
               handleSubCategorySubmission={handleSubCategorySubmission}
             />
           </div>
@@ -88,6 +98,7 @@ const HomePage = () => {
           handleTransactionSubmission={handleTransactionSubmission}
           categories={categories}
           subCategories={subCategories}
+          isLoading={newTransactionStatus}
         />
       </div>
       <TransactionList transactions={sortedTransactions} />

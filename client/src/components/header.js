@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { fetchBudget,  updateBudget } from "../redux/slices/budgetSlice";
@@ -12,13 +12,16 @@ const Header = ({ transactions }) => {
   const [budgetErr, setBudgetErr] = useState('none');
   const [budgetColor, setBudgetColor] = useState('green')
   const dispatch = useDispatch();
-  const budgetArr = useSelector((state) => state.budget.data);
+  const {budgetArr} = useSelector((state) => state.budget);
+  const [updateBudgetStatus, setUpdateBudgetStatus] = useState(false);
 
   const { register, handleSubmit, resetField } = useForm();
 
   const onSubmit = useCallback( async (data) => {
+    setUpdateBudgetStatus(true)
    await dispatch(updateBudget({budget: data, id: budgetArr[0].id}))
     .then(() => {
+      setUpdateBudgetStatus(false)
       dispatch(fetchBudget());
       resetField("amount");
     })
@@ -129,12 +132,21 @@ useEffect(() => {
           </div>
 
           <div className="self-center align-middle border-yellow-300">
-            <button
+            {
+              updateBudgetStatus ? (<button
+              disabled
+              className="w-20 border border-gray-600 rounded px-3 py-1 text-sm bg-gray-600 text-white"
+            >
+              Saving...
+            </button>) : (
+              <button
               type="submit"
-              className="border border-lime-400 rounded px-3 py-1 text-sm bg-lime-400 text-white"
+              className="w-20 border border-lime-400 rounded px-3 py-1 text-sm bg-lime-400 text-white"
             >
               Save
             </button>
+            )
+            }
           </div>
         </form>
       </div>

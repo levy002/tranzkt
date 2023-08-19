@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { postSubCategoryApi, fetchSubCategoriesApi } from '../api/subCategoryApi';
 
 const initialState = {
-    data: [],
-    isLoading: 'false',
+    subCategories: [],
+    subCategoriesStatus: 'false',
 };
 
 export const fetchSubCategories = createAsyncThunk(
@@ -28,18 +28,18 @@ export const subCategoriesSlice = createSlice({
   initialState,
   extraReducers: {
     [fetchSubCategories.pending]: (state) => {
-      state.isLoading = 'true';
+      state.subCategoriesStatus = 'true';
     },
     [fetchSubCategories.fulfilled]: (state, action) => {
-      state.isLoading = 'false';
-      state.data = [...action.payload];
+      state.subCategoriesStatus = 'false';
+      state.subCategories = [...action.payload];
     },
-    [fetchSubCategories.rejected]: (state, action) => {
-      state.isLoading = 'false';
+    [fetchSubCategories.rejected]: (state) => {
+      state.subCategoriesStatus = 'false';
     },
     [postSubCategory.fulfilled]: (state, action) => {
-      state.isLoading = 'false';
-      state.data = [...state.data, action.payload.subCategory];
+      state.subCategoriesStatus = 'false';
+      state.subCategories = [...state.subCategories, action.payload.subCategory];
     },
   }
 });

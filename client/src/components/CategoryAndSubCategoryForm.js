@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 
 
-export const CategoryForm = ({ handleCategorySubmission }) => {
+export const CategoryForm = ({ handleCategorySubmission, isLoading }) => {
   const { register, handleSubmit, resetField } = useForm();
 
   const onSubmit = (data) => {
@@ -29,23 +29,31 @@ export const CategoryForm = ({ handleCategorySubmission }) => {
         </div>
 
         <div className="self-center align-middle border-yellow-300">
-          <button
+          {isLoading ? (
+            <button
             type="submit"
-            className="border border-green-600 rounded px-3 bg-green-600 text-slate-100"
+            className=" w-20 border border-gray-600 rounded px-3 bg-gray-600 text-slate-100"
+          >
+            Saving...
+          </button>
+          ) : (
+            <button
+            type="submit"
+            className=" w-20 border border-green-600 rounded px-3 bg-green-600 text-slate-100"
           >
             Save
           </button>
+          )}
         </div>
       </form>
     </div>
   );
 };
 
-export const SubCategoryForm = ({ handleSubCategorySubmission }) => {
+export const SubCategoryForm = ({ handleSubCategorySubmission, isLoading }) => {
   const { register, handleSubmit, resetField } = useForm();
   const onSubmit = (data) => {
     handleSubCategorySubmission(data);
-    console.log(data);
     resetField("name");
   };
 
@@ -67,12 +75,21 @@ export const SubCategoryForm = ({ handleSubCategorySubmission }) => {
         </div>
 
         <div className="self-center align-middle border-yellow-300">
-          <button
+        {isLoading ? (
+            <button
             type="submit"
-            className="border border-green-600 rounded px-3 bg-green-600 text-slate-100"
+            className=" w-20 border border-gray-600 rounded px-3 bg-gray-600 text-slate-100"
+          >
+            Saving...
+          </button>
+          ) : (
+            <button
+            type="submit"
+            className=" w-20 border border-green-600 rounded px-3 bg-green-600 text-slate-100"
           >
             Save
           </button>
+          )}
         </div>
       </form>
     </div>

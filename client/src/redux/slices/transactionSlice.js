@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { postTransactionApi, fetchTransactionsApi, deleteTransactionApi } from '../api/transactionApi';
 
 const initialState = {
-    data: [],
-    isLoading: 'false',
+    transactions: [],
+    transactionStatus: 'false',
 };
 
 export const fetchTransactions = createAsyncThunk(
@@ -39,22 +39,22 @@ export const transactionSlice = createSlice({
   },
   extraReducers: {
     [fetchTransactions.pending]: (state) => {
-      state.isLoading = 'true';
+      state.transactionStatus = 'true';
     },
     [fetchTransactions.fulfilled]: (state, action) => {
-      state.isLoading = 'false';
-      state.data = [...action.payload];
+      state.transactionStatus = 'false';
+      state.transaction = action.payload;
     },
-    [fetchTransactions.rejected]: (state, action) => {
-      state.isLoading = 'false';
+    [fetchTransactions.rejected]: (state) => {
+      state.transactionStatus = 'false';
     },
     [postTransaction.fulfilled]: (state, action) => {
-      state.isLoading = 'false';
-      state.data = [...state.data, action.payload.transaction];
+      state.transactionStatus = 'false';
+      state.transactions = [...state.transactions, action.payload.transaction];
     },
     [deleteTransaction.fulfilled]: (state, action) => {
-      state.isLoading = 'false';
-      state.data = state.data.filter((t) => t.id !== action.payload.id);
+      state.transactionStatus = 'false';
+      state.transactions = state.transactions.filter((t) => t.id !== action.payload.id);
     },
   }
 });
