@@ -7,7 +7,8 @@ const newSubCategory = async (req, res) => {
     const subCategory = await model.SubCategory.create({ name });
     res.status(201).send({
         subCategory: {
-            name: subCategory.name
+            name: subCategory.name,
+            id: subCategory.id
         },
         message: "subCategory created Successfully"
     })

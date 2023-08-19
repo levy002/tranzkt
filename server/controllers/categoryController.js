@@ -7,7 +7,8 @@ const newCategory = async (req, res) => {
     const category = await model.Category.create({ name });
     res.status(201).send({
         category: {
-            name: category.name
+            name: category.name,
+            id: category.id
         },
         message: "Category created Successfully"
     })

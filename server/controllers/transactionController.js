@@ -13,7 +13,8 @@ const newTransaction = async (req, res) => {
             subCategory: transaction.subCategory, 
             amount: transaction.amount, 
             account: transaction.account,
-            time: transaction.time
+            time: transaction.time,
+            id: transaction.id
          },
          message: "Transaction created Successfully"
      })
