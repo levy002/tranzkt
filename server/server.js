@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 require('dotenv').config();
 const routes = require('./routes/route');
 
-// const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 
 // let corsOptions = {
 //   origin: 'http://localhost:3000',
@@ -23,7 +23,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then((res) => {
-    console.log("Database connected!");
-    // app.listen(port);
+    console.log("Databaseconnected!");
+    app.listen(port);
   })
   .catch((err) => console.log(err));
