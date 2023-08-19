@@ -4,13 +4,9 @@ const cors = require('cors');
 const mongoose = require("mongoose");
 require('dotenv').config();
 const routes = require('./routes/route');
+const { newBudget } = require('./controllers/budgetConteroller');
 
 const port = process.env.PORT || 8080;
-
-// let corsOptions = {
-//   origin: 'http://localhost:3000',
-//   optionsSuccessStatus: 200
-//  }
 
 app.use(cors());
 app.use(express.json());
@@ -23,7 +19,8 @@ mongoose
     useUnifiedTopology: true,
   })
   .then((res) => {
-    console.log("Databaseconnected!");
+    newBudget()
     app.listen(port);
   })
   .catch((err) => console.log(err));
+

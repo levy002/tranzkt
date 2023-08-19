@@ -2,20 +2,17 @@ const model = require('../models/models');
 
 const newBudget = async (req, res) => {
   try{
-    const budget = new model.Budget({
-        amount: 0
-    });
+    const budget = await model.Budget.find();
+    if(budget.length === 0) {
+        const budget = new model.Budget({
+            amount: 0
+        });
+    
+        budget.save();
 
-    budget.save();
-    res.status(201).send({
-        budget,
-        message: "Creating Budget Successfully"
-    });
-
+    }
   }catch (err) {
-    res.status(400).send({
-        message: 'Creating Budget failed'
-    })
+    console.log('Error creating the budget', err)
   }
 };
 
