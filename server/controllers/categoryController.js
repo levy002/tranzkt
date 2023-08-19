@@ -32,22 +32,7 @@ const getAllCategories = async (req, res) => {
     }
 };
 
-const deleteCategory = async (req, res) => {
-    try{
-        const { id } = req.body;
-        await model.Category.findByIdAndDelete(id);
-        res.status(200).send({
-            message: 'Category deleted successfully'
-        });
-    } catch (err) {
-        res.status(400).send({
-            message: 'Deleting categories failed'
-        })
-    }
-}
-
 module.exports = {
     newCategory,
     getAllCategories,
-    deleteCategory
 };

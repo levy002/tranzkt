@@ -20,18 +20,16 @@ const newBudget = async (req, res) => {
 };
 
 const updateBudget = async (req, res) => {
-    console.log('helloooooo')
    const id = req.params.id;
-   const {newAmount} = req.body;
-   console.log(rep.params)
-
+   const {amount} = req.body;
    try {
-    // //   const oldBudget = model.Budget.findById(id);
-    //   oldBudget.updateOne({$set: { amount: newAmount}});
+       await model.Budget.findByIdAndUpdate(id, {amount});
       res.status(201).send({
+        newBudget: {amount},
         message: "Updating Budget Successfully"
     });
    }catch (err) {
+    console.log(err)
     res.status(400).send({
         message: 'Updating Budget failed'
     })
