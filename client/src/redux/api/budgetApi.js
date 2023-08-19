@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const Base_Url = 'https://tranzakt.onrender.com/api/budget';
+// const Base_Url = 'https://tranzakt.onrender.com/api/budget';
+const Base_Url = 'http://localhost:8080/api/budget';
 
 export const fetchBudgetApi = async () => {
    try {
@@ -20,3 +21,12 @@ export const updateBudgetApi = async (budget, id) => {
         throw err;
     }
 };
+
+// export const postBudgetApi = async () => {
+//    try {
+//      const res = await axios.post(Base_Url);
+//      return res.data;
+//    } catch (err) {
+//       console.log(err);
+//    }
+// };

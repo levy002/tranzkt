@@ -1,17 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { fetchBudget, updateBudget } from "../redux/slices/budgetSlice";
+import { fetchBudget,  updateBudget } from "../redux/slices/budgetSlice";
 
 const Header = ({ transactions }) => {
   const [cashBalance, setCashBalance] = useState(0);
   const [bankBalance, setBankBalance] = useState(0);
   const [momoBalance, setMomoBalance] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
-
+  const [budget, setBudget] = useState(0);
+  const [budgetErr, setBudgetErr] = useState('none');
+  const [budgetColor, setBudgetColor] = useState('green')
   const dispatch = useDispatch();
   const budgetArr = useSelector((state) => state.budget.data);
-  const budget = budgetArr.length === 0 ? 0 : budgetArr[0].amount;
 
   const { register, handleSubmit, resetField } = useForm();
 
@@ -28,50 +29,44 @@ const Header = ({ transactions }) => {
   }, [budgetArr, dispatch, resetField]);
 
   useEffect(() => {
-    dispatch(fetchBudget());
-  }, [dispatch]);
-  
+    budgetArr[0] && setBudget(budgetArr[0].amount)
+  }, [budgetArr])
 
-  const updateBalance = useCallback((transaction, account, setNewBalanceFunction ) => {
-   let total = 0;
-   if(transaction.account === account){
-      if(transaction.type === 'Expense' && total !== 0) {
-         total -= transaction.amount;
-      } else if(transaction.type === 'Income'){
-         total += transaction.amount;
-      }
-      setNewBalanceFunction(total);
-  }
-}, []);
+const calculateBalancesAndExpenses = useCallback(() => {
+  const allExpenses = {
+    momo: transactions.filter((t) => t.account === 'Momo' && t.type === 'Expense').reduce((total, t) => total + Number(t.amount), 0),
+    bank: transactions.filter((t) => t.account === 'Bank' && t.type === 'Expense').reduce((total, t) => total + Number(t.amount), 0),
+    cash: transactions.filter((t) => t.account === 'Cash' && t.type === 'Expense').reduce((total, t) => total + Number(t.amount), 0),
+    total: transactions.filter((t) => t.type === 'Expense').reduce((total, t) => total + Number(t.amount), 0),
+  };
 
+  const allIncomes = {
+    momo: transactions.filter((t) => t.account === 'Momo' && t.type === 'Income').reduce((total, t) => total + Number(t.amount), 0),
+    bank: transactions.filter((t) => t.account === 'Bank' && t.type === 'Income').reduce((total, t) => total + Number(t.amount), 0),
+    cash: transactions.filter((t) => t.account === 'Cash' && t.type === 'Income').reduce((total, t) => total + Number(t.amount), 0),
+  };
+
+allExpenses.momo > allIncomes.momo ? setMomoBalance(0) : setMomoBalance(allIncomes.momo - allExpenses.momo);
+allExpenses.bank > allIncomes.bank ? setMomoBalance(0) : setBankBalance(allIncomes.bank - allExpenses.bank);
+allExpenses.cash > allIncomes.cash ? setMomoBalance(0) : setCashBalance(allIncomes.cash - allExpenses.cash);
+
+setTotalExpenses(allExpenses.total)
+
+  setBudgetColor(budget < allExpenses.total ? 'red' : 'green');
+  setBudgetErr(budget < allExpenses.total ? 'block' : 'none');
+
+}, [budget, transactions]);
 
 useEffect(() => {
- transactions.map((t) => {
-   if(t.account === 'Momo') {
-      updateBalance(t, 'Momo', setMomoBalance);
-   } else if(t.account === "Bank") {
-      updateBalance(t, "Bank", setBankBalance);
-   } else if(t.account === "Cash") {
-      updateBalance(t, "Cash", setCashBalance);
-   };
-
-
-   const expenses = transactions.filter((t) => t.type === "Expense").reduce((a, b) => {
-      return a + Number(b.amount);
-    }, 0);
-
-    setTotalExpenses(expenses);
-    return null;
- })
-
-
-}, [transactions, updateBalance]);
+  dispatch(fetchBudget());
+  calculateBalancesAndExpenses();
+}, [dispatch, calculateBalancesAndExpenses]);
 
   return (
    <div 
    className="px-8  py-4 mb-4"
    style={{
-      backgroundColor: `${budget >= totalExpenses ? "#16a34a" : "#e11d48"}`,
+      backgroundColor: budgetColor,
     }}>
    <h1 className="text-3xl text-white rounded font-bold mb-4">TRANSACTION MANAGER</h1>
     <div
@@ -102,7 +97,7 @@ useEffect(() => {
 
       <h3
         className="font-bold text-lg italic text-red-800 bg-slate-50 px-3 py-2 rounded"
-        style={{ display: `${budget >= totalExpenses ? "none" : "block"}` }}
+        style={{ display: budgetErr }}
       >
         Your Budget has exceeded!!!
       </h3>
@@ -120,14 +115,14 @@ useEffect(() => {
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex gap-3 mt-2">
-          <div className="w-32">
+          <div className="w-36">
             <input
               type="number"
               {...register("amount", {
                 valueAsNumber: true,
-                validate: (value) => value > 0,
+                validate: (value) => value >= 0,
               })}
-              placeholder="New Budget"
+              placeholder="Update Budget"
               className="w-full text-sm"
               required
             />
