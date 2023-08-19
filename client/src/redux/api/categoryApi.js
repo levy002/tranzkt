@@ -13,8 +13,8 @@ export const fetchCategoriesApi = async () => {
 
 export const postCategoryApi = async (category) => {
     try {
-        axios.post(Base_Url, category)
-          .then((res) => res.data);
+        const res = await axios.post(Base_Url, category);
+        return res.data;
     } catch (err) {
         console.log(err)
     }

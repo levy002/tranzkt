@@ -13,8 +13,8 @@ export const fetchTransactionsApi = async () => {
 
 export const postTransactionApi = async (transaction) => {
     try {
-        axios.post(Base_Url, transaction)
-          .then((res) => res.data);
+        const res = await axios.post(Base_Url, transaction);
+        return res.data;
     } catch (err) {
         console.log(err)
     }
@@ -22,7 +22,8 @@ export const postTransactionApi = async (transaction) => {
 
 export const deleteTransactionApi = async (id) => {
     try {
-       axios.delete(`${Base_Url}/${id}`);
+       const res = await axios.delete(`${Base_Url}/${id}`);
+       return res.data;
     } catch (err) {
        console.log(err);
     }

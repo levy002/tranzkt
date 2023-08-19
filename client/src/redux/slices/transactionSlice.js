@@ -3,7 +3,7 @@ import { postTransactionApi, fetchTransactionsApi, deleteTransactionApi } from '
 
 const initialState = {
     data: [],
-    isLoading: 'false'
+    isLoading: 'false',
 };
 
 export const fetchTransactions = createAsyncThunk(
@@ -16,15 +16,17 @@ export const fetchTransactions = createAsyncThunk(
 
 export const postTransaction = createAsyncThunk(
     'transaction/post',
-    async (transaction) => await postTransactionApi(transaction)
+    async (transaction) => {
+      const res = await postTransactionApi(transaction)
+      return res;
+    }
 );
 
 export const deleteTransaction = createAsyncThunk(
     'transaction/delete',
     async (id) => {
       const res = await deleteTransactionApi(id);
-      console.log(res, id, '%%%%%%%')
-      return res
+      return res;
     }
 );
 
@@ -32,21 +34,30 @@ export const deleteTransaction = createAsyncThunk(
 export const transactionSlice = createSlice({
   name: 'transaction',
   initialState,
+  reducers: {
+
+  },
   extraReducers: {
     [fetchTransactions.pending]: (state) => {
       state.isLoading = 'true';
     },
     [fetchTransactions.fulfilled]: (state, action) => {
       state.isLoading = 'false';
-      state.data = action.payload;
+      state.data = [...action.payload];
     },
-    [fetchTransactions.rejected]: (state) => {
+    [fetchTransactions.rejected]: (state, action) => {
       state.isLoading = 'false';
+    },
+    [postTransaction.fulfilled]: (state, action) => {
+      state.isLoading = 'false';
+      state.data = [...state.data, action.payload.transaction];
+    },
+    [deleteTransaction.fulfilled]: (state, action) => {
+      state.isLoading = 'false';
+      state.data = state.data.filter((t) => t.id !== action.payload.id);
     },
   }
 });
-
-// export const { postTransaction, deleteTransaction } = transactionSlice.actions;
 
 export default transactionSlice.reducer;
 

@@ -43,7 +43,7 @@ const TransactionList = ({ transactions }) => {
         <h3>No Transactions</h3>
       ) : (
         displayedTransactions.map((transaction) => (
-          <Transaction key={transaction.id} transaction={transaction} />
+          <Transaction key={transaction.id} transaction={transaction} id={transaction.id} />
         ))
       )}
     </div>

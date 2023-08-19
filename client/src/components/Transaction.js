@@ -3,11 +3,11 @@ import { MdOutlineDeleteForever } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { deleteTransaction } from "../redux/slices/transactionSlice";
 
-const Transaction = ({ transaction }) => {
+const Transaction = ({ transaction, id }) => {
   const dispatch = useDispatch();
 
   const handleTransactionDelete = () => {
-    dispatch(deleteTransaction(transaction.id));
+    dispatch(deleteTransaction(id));
   };
 
   const styles = (account) => {

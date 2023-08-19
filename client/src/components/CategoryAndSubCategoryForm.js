@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 
 
@@ -14,8 +14,6 @@ export const CategoryForm = ({ handleCategorySubmission }) => {
 
   return (
     <div>
-      <h2 className="py-2 font-bold text-xl">New Category</h2>
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-3 items-center mt-2"
@@ -54,8 +52,6 @@ export const SubCategoryForm = ({ handleSubCategorySubmission }) => {
 
   return (
     <div>
-      <h2 className="py-2 font-bold text-base bg-slate-200">New SubCategory</h2>
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-3 items-center mt-2"

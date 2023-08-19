@@ -11,11 +11,12 @@ export const fetchBudgetApi = async () => {
    }
 };
 
-export const postBudgetApi = async (budget) => {
+export const updateBudgetApi = async (budget, id) => {
     try {
-        axios.post(Base_Url, budget)
-          .then((res) => res.data);
+       const res = await axios.put(`${Base_Url}/${id}`, budget);
+       return res.data;
     } catch (err) {
         console.log(err)
+        throw err;
     }
 };

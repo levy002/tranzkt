@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { fetchBudget, postBudget } from "../redux/slices/budgetSlice";
+import { fetchBudget, updateBudget } from "../redux/slices/budgetSlice";
 
 const Header = ({ transactions }) => {
   const [cashBalance, setCashBalance] = useState(0);
@@ -14,17 +14,25 @@ const Header = ({ transactions }) => {
   const budget = budgetArr.length === 0 ? 0 : budgetArr[0].amount;
 
   const { register, handleSubmit, resetField } = useForm();
-  const onSubmit = (data) => {
-    dispatch(postBudget(data));
-    resetField("amount");
-  };
+
+  const onSubmit = useCallback( async (data) => {
+   await dispatch(updateBudget({budget: data, id: budgetArr[0].id}))
+    .then(() => {
+      dispatch(fetchBudget());
+      resetField("amount");
+    })
+    .catch((err) => {
+      throw err;
+    })
+
+  }, [budgetArr]);
 
   useEffect(() => {
     dispatch(fetchBudget());
   }, [dispatch]);
   
 
-  const updateBalance = (transaction, account, setNewBalanceFunction ) => {
+  const updateBalance = useCallback((transaction, account, setNewBalanceFunction ) => {
    let total = 0;
    if(transaction.account === account){
       if(transaction.type === 'Expense' && total !== 0) {
@@ -34,7 +42,7 @@ const Header = ({ transactions }) => {
       }
       setNewBalanceFunction(total);
   }
-};
+}, [transactions]);
 
 
 useEffect(() => {

@@ -3,7 +3,7 @@ import { postSubCategoryApi, fetchSubCategoriesApi } from '../api/subCategoryApi
 
 const initialState = {
     data: [],
-    isLoading: 'false'
+    isLoading: 'false',
 };
 
 export const fetchSubCategories = createAsyncThunk(
@@ -16,7 +16,11 @@ export const fetchSubCategories = createAsyncThunk(
 
 export const postSubCategory = createAsyncThunk(
     'subCategory/post',
-    async (subCategory) => await postSubCategoryApi(subCategory)
+    async (subCategory) => {
+      const res = await postSubCategoryApi(subCategory);
+      return res;
+    
+    }
 );
 
 export const subCategoriesSlice = createSlice({
@@ -28,15 +32,17 @@ export const subCategoriesSlice = createSlice({
     },
     [fetchSubCategories.fulfilled]: (state, action) => {
       state.isLoading = 'false';
-      state.data = action.payload;
+      state.data = [...action.payload];
     },
-    [fetchSubCategories.rejected]: (state) => {
+    [fetchSubCategories.rejected]: (state, action) => {
       state.isLoading = 'false';
+    },
+    [postSubCategory.fulfilled]: (state, action) => {
+      state.isLoading = 'false';
+      state.data = [...state.data, action.payload.subCategory];
     },
   }
 });
-
-// const { getTransactions } = transactionSlice.actions;
 
 export default subCategoriesSlice.reducer;
 

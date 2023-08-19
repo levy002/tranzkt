@@ -9,7 +9,6 @@ const TransactionForm = ({
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data)
     handleTransactionSubmission(data);
     reset();
   };
@@ -33,7 +32,7 @@ const TransactionForm = ({
         </div>
 
         <select {...register("type")} className="w-1/3" required>
-          <option value="" disabled selected>
+          <option value="" selected>
             Transaction Type
           </option>
           <option value="Income">Income</option>
@@ -41,7 +40,7 @@ const TransactionForm = ({
         </select>
 
         <select {...register("account")} className="w-1/4" required>
-          <option value="" disabled selected>
+          <option value="" selected>
             Account
           </option>
           <option value="Cash">Cash</option>
@@ -50,17 +49,17 @@ const TransactionForm = ({
         </select>
 
         <select {...register("category")} className="w-1/3">
-          <option value="" disabled selected>
-            Select Category
+          <option value="" selected>
+            Category
           </option>
           {categories.map((category) => (
             <option key={category.id}>{category.name}</option>
           ))}
         </select>
 
-        <select {...register("subCategory")} className="w-1/3">
-          <option disabled value="" selected>
-            Select SubCategory
+        <select {...register("subCategory")} className="w-1/3" >
+          <option value="" selected>
+            SubCategory
           </option>
           {subCategories.map((subCategory) => (
             <option key={subCategory.id}>{subCategory.name}</option>
@@ -78,7 +77,7 @@ const TransactionForm = ({
         </div>
 
         <div className="w-1/3">
-          <input type="date" {...register("time")} className="w-full" />
+          <input type="date" {...register("time")} className="w-full"  required/>
         </div>
         <div className="self-center align-middle border-yellow-300">
           <button
