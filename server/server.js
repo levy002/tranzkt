@@ -5,15 +5,14 @@ const mongoose = require("mongoose");
 require('dotenv').config();
 const routes = require('./routes/route');
 
-const port = process.env.PORT || 5000;
+// const port = process.env.PORT || 5000;
 
-let corsOptions = {
-  origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200
- }
+// let corsOptions = {
+//   origin: 'http://localhost:3000',
+//   optionsSuccessStatus: 200
+//  }
 
-app.use(cors(corsOptions));
-// app.use(cors)
+app.use(cors);
 app.use(express.json());
 
 app.use(routes);
@@ -25,6 +24,6 @@ mongoose
   })
   .then((res) => {
     console.log("Database connected!");
-    app.listen(port);
+    // app.listen(port);
   })
   .catch((err) => console.log(err));
