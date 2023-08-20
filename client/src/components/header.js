@@ -65,8 +65,8 @@ setBalanceAvailable(momoBalance + bankBalance + cashBalance);
 
   if(momoBalance < 0 || cashBalance < 0 || bankBalance < 0) {
     setLoanNotitication('block')
-  } else {
-    setLoanNotitication('')
+  } else if(momoBalance >= 0 && cashBalance >= 0 && bankBalance >= 0) {
+    setLoanNotitication('none')
   }
 
 }, [budget, transactions, momoBalance, bankBalance, cashBalance, balanceAvailable, loanNotification]);
