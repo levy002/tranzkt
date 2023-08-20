@@ -16,6 +16,7 @@ const Header = ({ transactions }) => {
   const dispatch = useDispatch();
   const {budgetArr} = useSelector((state) => state.budget);
   const [updateBudgetStatus, setUpdateBudgetStatus] = useState(false);
+  const [loanNotification, setLoanNotitication] = useState('none');
 
   const { register, handleSubmit, resetField } = useForm();
 
@@ -58,11 +59,17 @@ setCashBalance(allIncomes.cash - allExpenses.cash);
 setTotalExpenses(allExpenses.total)
 setBalanceAvailable(momoBalance + bankBalance + cashBalance);
 
-  setBudgetColor(budget < allExpenses.total || budget > balanceAvailable ? 'red' : 'green');
+  setBudgetColor(budget < allExpenses.total || budget > balanceAvailable || loanNotification === 'block' ? 'red' : 'green');
   setBudgetErr(budget < allExpenses.total ? 'block' : 'none');
   setBalanceErr(budget > balanceAvailable ? 'block' : 'none');
 
-}, [budget, transactions, momoBalance, bankBalance, cashBalance, balanceAvailable]);
+  if(momoBalance < 0 || cashBalance < 0 || bankBalance < 0) {
+    setLoanNotitication('block')
+  } else {
+    setLoanNotitication('')
+  }
+
+}, [budget, transactions, momoBalance, bankBalance, cashBalance, balanceAvailable, loanNotification]);
 
 useEffect(() => {
   dispatch(fetchBudget());
@@ -85,27 +92,27 @@ useEffect(() => {
               Cash Balance:{" "}
             </span>
             <span className="font-bold text-slate-50 text-xl">
-              {cashBalance}$
+              {cashBalance < 0 ? `${cashBalance * -1}$ (Loan)` : `${cashBalance}$`}
             </span>
           </p>
           <p>
             <span className="font-bold text-purple-200 text-xl">
               Bank Balance:{" "}
             </span>
-            <span className="font-bold text-slate-50 text-xl">{bankBalance}$</span>
+            <span className="font-bold text-slate-50 text-xl">{bankBalance < 0 ? `${bankBalance * -1}$ (Loan)` : `${bankBalance}$`}</span>
           </p>
           <p>
             <span className="font-bold text-purple-200 text-xl">
               Momo Balance:{" "}
             </span>
-            <span className="font-bold text-slate-50 text-xl">{momoBalance}$</span>
+            <span className="font-bold text-slate-50 text-xl">{momoBalance < 0 ? `${momoBalance * -1}$ (Loan)` : `${momoBalance}$`}</span>
           </p>
 
           <p>
             <span className="font-bold text-purple-200 text-xl">
-              Balance available:{" "}
+              Total Balance:{" "}
             </span>
-            <span className="font-bold text-slate-50 text-xl">{balanceAvailable}$</span>
+            <span className="font-bold text-slate-50 text-xl">{balanceAvailable < 0 ? `${balanceAvailable * -1}$ (Loan)` : `${balanceAvailable}$`}</span>
           </p>
         </div>
 
@@ -122,6 +129,13 @@ useEffect(() => {
         style={{ display: balanceErr }}
       >
         Your Balance is less than Budget
+      </h3>
+
+      <h3
+        className="font-bold text-lg italic text-red-800 bg-slate-50 px-3 py-2 rounded"
+        style={{ display: loanNotification }}
+      >
+        You have a pending Loan
       </h3>
         </div>
 
