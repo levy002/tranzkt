@@ -1,6 +1,7 @@
 import axios from 'axios';
+import env from 'react-dotenv';
 
-const Base_Url = 'http://localhost:8080/api/subCategories';
+const Base_Url = `${env.BASE_URL}/api/subCategories`;
 
 export const fetchSubCategoriesApi = async () => {
    try {

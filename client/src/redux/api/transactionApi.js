@@ -1,6 +1,7 @@
 import axios from 'axios';
+import env from 'react-dotenv';
 
-const Base_Url = 'http://localhost:8080/api/transactions';
+const Base_Url = `${env.BASE_URL}/api/transactions`;
 
 export const fetchTransactionsApi = async () => {
    try {

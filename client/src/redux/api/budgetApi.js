@@ -1,6 +1,9 @@
 import axios from 'axios';
+import env from 'react-dotenv';
 
-const Base_Url = 'http://localhost:8080/api/budget';
+const Base_Url = `${env.BASE_URL}/api/budget`;
+
+console.log(env.BASE_URL, '^^^^^^^^^^^')
 
 export const fetchBudgetApi = async () => {
    try {
