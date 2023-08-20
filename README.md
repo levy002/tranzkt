@@ -11,6 +11,7 @@
   - [🛠 Built With](#built-with)
     - [Tech Stack](#tech-stack)
     - [Key Features](#key-features)
+     - [🚀 Live Demo](#live-demo)
 - [💻 Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Setup](#setup)
@@ -66,7 +67,15 @@ __BACK end__
 - **Loan Tracking**
 - **Time-Based Search**
 - **Real-Time Notification**
-- **User-Friendly interface**
+- **User-Friendly interface**<!-- LIVE DEMO -->
+
+## 🚀 Live Demo <a name="live-demo"></a>
+
+- [FRONTEND on VERCEL](https://tranzkt.vercel.app/)
+- [BACKEND on Render](https://tranzakt.onrender.com)
+
+
+
 
 <!-- GETTING STARTED -->
 
@@ -102,6 +111,9 @@ To install all dependencies, execute the following command in your terminal:
 
 ### Start the project
 
+:warning: Remember to change the `BASE_URL` to `http://localhost:8080` 
+  - The `BASE_URL` is located  in the `.env` file from `<directory>/client/` directory
+
 To run the project, execute the following command in your terminal:
 
 
@@ -118,6 +130,7 @@ To install all dependencies, execute the following command in your terminal:
   cd <directory>/server
   npm install
 ```
+
 
 ### Start the server
 
