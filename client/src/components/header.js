@@ -62,7 +62,7 @@ setBalanceAvailable(momoBalance + bankBalance + cashBalance);
   setBudgetErr(budget < allExpenses.total ? 'block' : 'none');
   setBalanceErr(budget > balanceAvailable ? 'block' : 'none');
 
-}, [budget, transactions, momoBalance, bankBalance, cashBalance]);
+}, [budget, transactions, momoBalance, bankBalance, cashBalance, balanceAvailable]);
 
 useEffect(() => {
   dispatch(fetchBudget());
