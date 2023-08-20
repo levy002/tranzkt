@@ -3,8 +3,6 @@ import env from 'react-dotenv';
 
 const Base_Url = `${env.BASE_URL}/api/budget`;
 
-console.log(env.BASE_URL, '^^^^^^^^^^^')
-
 export const fetchBudgetApi = async () => {
    try {
      const res = await axios.get(Base_Url);
