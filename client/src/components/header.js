@@ -8,8 +8,10 @@ const Header = ({ transactions }) => {
   const [bankBalance, setBankBalance] = useState(0);
   const [momoBalance, setMomoBalance] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
+  const [balanceAvailable, setBalanceAvailable] = useState(0);
   const [budget, setBudget] = useState(0);
   const [budgetErr, setBudgetErr] = useState('none');
+  const [balanceErr, setBalanceErr] = useState('none');
   const [budgetColor, setBudgetColor] = useState('green')
   const dispatch = useDispatch();
   const {budgetArr} = useSelector((state) => state.budget);
@@ -49,16 +51,18 @@ const calculateBalancesAndExpenses = useCallback(() => {
     cash: transactions.filter((t) => t.account === 'Cash' && t.type === 'Income').reduce((total, t) => total + Number(t.amount), 0),
   };
 
-allExpenses.momo > allIncomes.momo ? setMomoBalance(0) : setMomoBalance(allIncomes.momo - allExpenses.momo);
-allExpenses.bank > allIncomes.bank ? setMomoBalance(0) : setBankBalance(allIncomes.bank - allExpenses.bank);
-allExpenses.cash > allIncomes.cash ? setMomoBalance(0) : setCashBalance(allIncomes.cash - allExpenses.cash);
+setMomoBalance(allIncomes.momo - allExpenses.momo);
+setBankBalance(allIncomes.bank - allExpenses.bank);
+setCashBalance(allIncomes.cash - allExpenses.cash);
 
 setTotalExpenses(allExpenses.total)
+setBalanceAvailable(momoBalance + bankBalance + cashBalance);
 
-  setBudgetColor(budget < allExpenses.total ? 'red' : 'green');
+  setBudgetColor(budget < allExpenses.total || budget > balanceAvailable ? 'red' : 'green');
   setBudgetErr(budget < allExpenses.total ? 'block' : 'none');
+  setBalanceErr(budget > balanceAvailable ? 'block' : 'none');
 
-}, [budget, transactions]);
+}, [budget, transactions, momoBalance, bankBalance, cashBalance]);
 
 useEffect(() => {
   dispatch(fetchBudget());
@@ -96,14 +100,30 @@ useEffect(() => {
             </span>
             <span className="font-bold text-slate-50 text-xl">{momoBalance}$</span>
           </p>
+
+          <p>
+            <span className="font-bold text-purple-200 text-xl">
+              Balance available:{" "}
+            </span>
+            <span className="font-bold text-slate-50 text-xl">{balanceAvailable}$</span>
+          </p>
         </div>
 
-      <h3
+        <div className="flex flex-col items-center gap-2">
+        <h3
         className="font-bold text-lg italic text-red-800 bg-slate-50 px-3 py-2 rounded"
         style={{ display: budgetErr }}
       >
-        Your Budget has exceeded!!!
+        Your Budget is less than Expenses
       </h3>
+
+      <h3
+        className="font-bold text-lg italic text-red-800 bg-slate-50 px-3 py-2 rounded"
+        style={{ display: balanceErr }}
+      >
+        Your Balance is less than Budget
+      </h3>
+        </div>
 
       <div className="flex flex-col items-end w-1/3">
         <p className="">
@@ -113,7 +133,7 @@ useEffect(() => {
           </span>
         </p>
         <p>
-          <span className="font-bold text-purple-200 text-xl">Budget: </span>
+          <span className="font-bold text-purple-200 text-xl">Current Budget: </span>
           <span className="font-bold text-slate-50 text-xl">{budget}$</span>
         </p>
 

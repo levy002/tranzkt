@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.4",
@@ -23,7 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "tailwind:watch": "tailwindcss -i src/index.css -o src/build.css --watch"
+    "tailwind:watch": "tailwindcss -i public/index.css -o public/build.css --watch"
   },
   "eslintConfig": {
     "extends": [
